@@ -28,8 +28,8 @@ body {
   overflow-x: hidden;
   color: var(--paper);
   background:
-    radial-gradient(circle at 73% 18%, rgba(145, 71, 255, 0.12), transparent 27rem),
-    radial-gradient(circle at 16% 84%, rgba(83, 252, 24, 0.08), transparent 25rem),
+    radial-gradient(ellipse 42% 48% at 78% 30%, rgba(145, 71, 255, 0.075), rgba(145, 71, 255, 0.025) 45%, transparent 75%),
+    radial-gradient(ellipse 38% 48% at 16% 84%, rgba(83, 252, 24, 0.065), rgba(83, 252, 24, 0.022) 46%, transparent 76%),
     linear-gradient(128deg, #0b0b0e 0%, #030304 52%, #08080a 100%);
   font-family: "Arial Narrow", "Roboto Condensed", Arial, sans-serif;
 }
@@ -116,12 +116,29 @@ body::after {
 }
 
 .brand {
+  position: relative;
   display: flex;
   align-items: flex-end;
   justify-content: center;
   gap: clamp(0.65rem, 2vw, 1.5rem);
   margin: 0 0 clamp(2rem, 5vw, 3.5rem);
   transform: rotate(-1deg);
+}
+
+.brand::after {
+  position: absolute;
+  top: 15%;
+  left: 58%;
+  z-index: -1;
+  width: min(19rem, 48vw);
+  aspect-ratio: 1.9;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255, 59, 31, 0.5), rgba(255, 59, 31, 0.16) 38%, transparent 72%);
+  filter: blur(15px);
+  opacity: 0.58;
+  pointer-events: none;
+  transform: translate(-18%, -28%) rotate(2deg);
+  content: "";
 }
 
 .brand__name {
@@ -156,6 +173,7 @@ body::after {
     0 0 6px var(--live),
     0 0 13px var(--live),
     0 0 24px rgba(255, 59, 31, 0.78);
+  filter: drop-shadow(0 0 1.4rem rgba(255, 59, 31, 0.32));
   transform: rotate(1.8deg) translateY(-0.16em);
   animation: neon-fault 8s steps(1, end) infinite;
 }
@@ -185,6 +203,84 @@ body::after {
   transform: rotate(7deg);
 }
 
+.brand__sparks {
+  position: absolute;
+  inset: -0.35em;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.brand__spark {
+  --spark-x1: 0.8rem;
+  --spark-y1: -1.05rem;
+  --spark-x2: 1.55rem;
+  --spark-y2: 1.65rem;
+  --spark-r1: 24deg;
+  --spark-r2: 58deg;
+  position: absolute;
+  top: 28%;
+  right: -5%;
+  left: auto;
+  width: 2px;
+  height: 10px;
+  border-radius: 1px 1px 50% 50%;
+  opacity: 0;
+  background: linear-gradient(to bottom, #fff 0 24%, var(--live-hot) 58%, #ff7c42 100%);
+  box-shadow:
+    0 0 1px #fff,
+    0 0 4px 1px #ff7545,
+    0 0 8px 1px var(--live);
+  transform: translate(0, 0) rotate(0deg) scaleY(0.25);
+  transform-origin: center bottom;
+  animation: spark-burst 8s linear infinite;
+}
+
+.brand__spark:nth-child(2) {
+  --spark-x1: 0.28rem;
+  --spark-y1: -0.72rem;
+  --spark-x2: 0.58rem;
+  --spark-y2: 1.45rem;
+  --spark-r1: 61deg;
+  --spark-r2: 103deg;
+  top: 62%;
+  right: -2%;
+  left: auto;
+  width: 2px;
+  height: 7px;
+  animation-delay: 85ms;
+}
+
+.brand__spark:nth-child(3) {
+  --spark-x1: -0.12rem;
+  --spark-y1: -0.82rem;
+  --spark-x2: -0.28rem;
+  --spark-y2: 1.2rem;
+  --spark-r1: -14deg;
+  --spark-r2: 33deg;
+  top: auto;
+  right: 14%;
+  bottom: -4%;
+  left: auto;
+  width: 3px;
+  height: 5px;
+  animation-delay: 190ms;
+}
+
+.brand__spark:nth-child(4) {
+  --spark-x1: 0.32rem;
+  --spark-y1: -0.58rem;
+  --spark-x2: 0.72rem;
+  --spark-y2: 1.4rem;
+  --spark-r1: -38deg;
+  --spark-r2: -76deg;
+  top: -2%;
+  right: 46%;
+  left: auto;
+  width: 2px;
+  height: 8px;
+  animation-delay: 45ms;
+}
+
 .prompt {
   display: flex;
   align-items: center;
@@ -205,9 +301,24 @@ body::after {
 }
 
 .platform-links {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(1rem, 2.4vw, 1.8rem);
+  isolation: isolate;
+}
+
+.platform-links::before {
+  position: absolute;
+  inset: -4rem 1.5rem;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse at 18% 50%, rgba(145, 71, 255, 0.18), transparent 52%),
+    radial-gradient(ellipse at 82% 50%, rgba(83, 252, 24, 0.15), transparent 52%);
+  filter: blur(30px);
+  opacity: 0.48;
+  pointer-events: none;
+  content: "";
 }
 
 .platform-link {
@@ -279,11 +390,17 @@ body::after {
 
 .platform-link--twitch {
   --accent: var(--twitch);
+  filter:
+    drop-shadow(0 13px 22px rgba(145, 71, 255, 0.12))
+    drop-shadow(-8px 20px 38px rgba(145, 71, 255, 0.04));
   transform: rotate(0.45deg);
 }
 
 .platform-link--kick {
   --accent: var(--kick);
+  filter:
+    drop-shadow(0 13px 22px rgba(83, 252, 24, 0.11))
+    drop-shadow(8px 20px 38px rgba(83, 252, 24, 0.04));
   transform: rotate(-0.55deg);
 }
 
@@ -319,6 +436,31 @@ body::after {
   }
 }
 
+@keyframes spark-burst {
+  0%, 6.8%, 11.4%, 100% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(0deg) scaleY(0.2);
+  }
+  7.1% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg) scaleY(0.55);
+    animation-timing-function: cubic-bezier(0.16, 0.7, 0.32, 1);
+  }
+  8.3% {
+    opacity: 0.96;
+    transform: translate(var(--spark-x1), var(--spark-y1)) rotate(var(--spark-r1)) scaleY(1.15);
+    animation-timing-function: cubic-bezier(0.48, 0.05, 0.86, 0.52);
+  }
+  9.5% {
+    opacity: 0.74;
+    transform: translate(var(--spark-x2), calc(var(--spark-y2) * 0.12)) rotate(var(--spark-r2)) scaleY(0.8);
+  }
+  11.4% {
+    opacity: 0;
+    transform: translate(var(--spark-x2), var(--spark-y2)) rotate(var(--spark-r2)) scaleY(0.16);
+  }
+}
+
 @media (max-width: 720px) {
   .landing {
     padding: 2rem clamp(1.25rem, 6vw, 2.25rem);
@@ -345,6 +487,15 @@ body::after {
   .platform-links {
     grid-template-columns: 1fr;
     gap: 0.9rem;
+  }
+
+  .platform-links::before {
+    inset: -2.5rem 0 -3rem;
+    background:
+      radial-gradient(ellipse at 50% 24%, rgba(145, 71, 255, 0.09), transparent 54%),
+      radial-gradient(ellipse at 50% 76%, rgba(83, 252, 24, 0.075), transparent 54%);
+    filter: blur(30px);
+    opacity: 0.44;
   }
 
   .platform-link {
